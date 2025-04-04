@@ -364,6 +364,9 @@ type Connector struct {
 	Type string `json:"type"`
 	// The Name of the connector that is used when displaying it to the end user.
 	Name string `json:"name"`
+	// Controls whether the connector is visible to the end user.
+	// E.g. for connectors which are meant to be used by backends / m2m auth only.
+	Hidden bool `json:"hidden"`
 	// ResourceVersion is the static versioning used to keep track of dynamic configuration
 	// changes to the connector object made by the API calls.
 	ResourceVersion string `json:"resourceVersion"`

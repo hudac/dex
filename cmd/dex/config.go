@@ -368,6 +368,7 @@ type Connector struct {
 	Type string `json:"type"`
 	Name string `json:"name"`
 	ID   string `json:"id"`
+	Hidden bool `json:"hidden"`
 
 	Config server.ConnectorConfig `json:"config"`
 }
@@ -379,6 +380,7 @@ func (c *Connector) UnmarshalJSON(b []byte) error {
 		Type string `json:"type"`
 		Name string `json:"name"`
 		ID   string `json:"id"`
+		Hidden bool `json:"hidden"`
 
 		Config json.RawMessage `json:"config"`
 	}
@@ -421,6 +423,7 @@ func (c *Connector) UnmarshalJSON(b []byte) error {
 		Type:   conn.Type,
 		Name:   conn.Name,
 		ID:     conn.ID,
+		Hidden: conn.Hidden,
 		Config: connConfig,
 	}
 	return nil
@@ -437,6 +440,7 @@ func ToStorageConnector(c Connector) (storage.Connector, error) {
 		ID:     c.ID,
 		Type:   c.Type,
 		Name:   c.Name,
+		Hidden: c.Hidden,
 		Config: data,
 	}, nil
 }

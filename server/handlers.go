@@ -174,13 +174,21 @@ func (s *Server) handleAuthorization(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	if len(connectors) == 1 && !s.alwaysShowLogin {
-		connURL.Path = s.absPath("/auth", url.PathEscape(connectors[0].ID))
-		http.Redirect(w, r, connURL.String(), http.StatusFound)
+	var visibleConnectors []storage.Connector
+	for _, each := range connectors {
+		if !each.Hidden {
+			visibleConnectors = append(visibleConnectors, each)
+		}
 	}
 
-	connectorInfos := make([]connectorInfo, len(connectors))
-	for index, conn := range connectors {
+	if len(visibleConnectors) == 1 && !s.alwaysShowLogin {
+		connURL.Path = s.absPath("/auth", url.PathEscape(visibleConnectors[0].ID))
+		http.Redirect(w, r, connURL.String(), http.StatusFound)
+		return
+	}
+
+	connectorInfos := make([]connectorInfo, len(visibleConnectors))
+	for index, conn := range visibleConnectors {
 		connURL.Path = s.absPath("/auth", url.PathEscape(conn.ID))
 		connectorInfos[index] = connectorInfo{
 			ID:   conn.ID,

@@ -336,6 +336,16 @@ func mockConnectorDataTestStorage(t *testing.T, s storage.Storage) {
 
 	err = s.CreateConnector(ctx, c2)
 	require.NoError(t, err)
+
+	c3 := storage.Connector{
+		ID:   "test-hidden",
+		Type: "mock",
+		Name: "A hidden Mock",
+		Hidden: true,
+	}
+
+	err = s.CreateConnector(ctx, c3)
+	require.NoError(t, err)
 }
 
 func TestHandlePassword(t *testing.T) {

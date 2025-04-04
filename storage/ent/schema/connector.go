@@ -11,6 +11,7 @@ create table connector
     id               text not null  primary key,
     type             text not null,
     name             text not null,
+	hidden           integer default 0 not null,
     resource_version text not null,
     config           blob
 );
@@ -35,6 +36,8 @@ func (Connector) Fields() []ent.Field {
 		field.Text("name").
 			SchemaType(textSchema).
 			NotEmpty(),
+		field.Bool("hidden").
+			Default(false),
 		field.Text("resource_version").
 			SchemaType(textSchema),
 		field.Bytes("config"),

@@ -34,6 +34,7 @@ func TestValidConfiguration(t *testing.T) {
 				Type:   "mockCallback",
 				ID:     "mock",
 				Name:   "Example",
+				Hidden: false,
 				Config: &mock.CallbackConfig{},
 			},
 		},
@@ -104,6 +105,15 @@ connectors:
 - type: oidc
   id: google
   name: Google
+  config:
+    issuer: https://accounts.google.com
+    clientID: foo
+    clientSecret: bar
+    redirectURI: http://127.0.0.1:5556/dex/callback/google
+- type: oidc
+  id: google-hidden
+  name: Another Google but hidden
+  hidden: true
   config:
     issuer: https://accounts.google.com
     clientID: foo
@@ -189,12 +199,26 @@ additionalFeatures: [
 				Type:   "mockCallback",
 				ID:     "mock",
 				Name:   "Example",
+				Hidden: false,
 				Config: &mock.CallbackConfig{},
 			},
 			{
 				Type: "oidc",
 				ID:   "google",
 				Name: "Google",
+				Hidden: false,
+				Config: &oidc.Config{
+					Issuer:       "https://accounts.google.com",
+					ClientID:     "foo",
+					ClientSecret: "bar",
+					RedirectURI:  "http://127.0.0.1:5556/dex/callback/google",
+				},
+			},
+			{
+				Type: "oidc",
+				ID:   "google-hidden",
+				Name: "Another Google but hidden",
+				Hidden: true,
 				Config: &oidc.Config{
 					Issuer:       "https://accounts.google.com",
 					ClientID:     "foo",
@@ -403,12 +427,14 @@ logger:
 				Type:   "mockCallback",
 				ID:     "mock",
 				Name:   "Example",
+				Hidden: false,
 				Config: &mock.CallbackConfig{},
 			},
 			{
 				Type: "oidc",
 				ID:   "google",
 				Name: "Google",
+				Hidden: false,
 				Config: &oidc.Config{
 					Issuer:       "https://accounts.google.com",
 					ClientID:     "foo",
